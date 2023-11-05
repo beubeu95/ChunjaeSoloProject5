@@ -6,4 +6,20 @@
         select * from notice order by regdate desc
     </select>
 
+    <select id="getNotice" parameterType="com.chunjae.project5.entity.Notice">
+        select * from notice where no=#{no}
+    </select>
+
+    <insert id="noticeInsert" parameterType="map">
+        insert into notice values (default, #{param.title}, #{param.content}, 1, default, default)
+    </insert>
+
+    <update id="noticeUpdate" parameterType="map">
+        update notice set title=#{param.title}, content=#{param.content} where no=#{param.no}
+    </update>
+
+    <delete id="noticeDelete">
+        delete from notice where no=#{no}
+    </delete>
+
 </mapper>

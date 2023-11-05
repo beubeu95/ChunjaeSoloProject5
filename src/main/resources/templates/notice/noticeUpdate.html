@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항 수정하기</title>
+
+    <div th:replace="/fragments/head.html :: headFragment"></div>
+</head>
+<body>
+
+<!-- header start -->
+<div th:replace="/fragments/header.html :: headerFragment"></div>
+<!-- header end -->
+
+<main id="main">
+
+    <!-- Breadcrumbs start -->
+    <div class="breadcrumbs">
+        <div class="page-header d-flex align-items-center" style="background-image: url('/img/banner.png');">
+            <div class="container position-relative">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-6 text-center">
+                        <h2>공지사항 상세보기</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <div class="container">
+                <ol>
+                    <li><a href="../">Home</a></li>
+                    <li>공지사항 상세보기</li>
+                </ol>
+            </div>
+        </nav>
+    </div>
+    <!-- Breadcrumbs end -->
+
+    <!-- noticeUpdate start -->
+        <section id="pricing" class="pricing">
+            <div class="container" data-aos="fade-up">
+                <div class="col-lg-12" data-aos="fade-up" data-aos-delay="200">
+                    <div class="pricing-item featured">
+                        <div class="container" >
+                            <form th:action="@{/notice/update}" method="post">
+                                <div >
+                                    <div class="container">
+                                        <div class="mb-3">
+                                            <label for="title" class="form-label" style="font-weight: bold !important; font-size: 20px;">제목</label>
+                                            <input type="hidden" name="no" id="no" th:value="${notice.no }" >
+                                            <input type="text" name="title" id="title" placeholder="제목 입력" th:value="${notice.title }" maxlength="98"  class="form-control" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="content" class="form-label" style="font-weight: bold !important; font-size: 20px;">내용</label>
+                                            <textarea name="content" id="content" class="form-control" placeholder="내용 입력" rows="8" cols="100" maxlength="800" required  th:text="${notice.content}"></textarea>
+                                        </div>
+                                    </div>
+                                    <div style="width: 100%; margin-top: 30px;">
+                                        <button class="btn btn-light btn-lg" style="width:200px; float: right; background-color: #0d42ff; font-weight: bold; color: #fff;"><a href="/notice/list" style="color: #fff;">목록</a></button>
+                                        <input type="submit" class="btn btn-light btn-lg" value="수정" style="width:200px; float: right; background-color: #4f5665; font-weight: bold; color: #fff;" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <!-- noticeUpdate end -->
+
+</main>
+
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- footer start -->
+<div th:replace="/fragments/footer.html :: footerFragment"></div>
+<!-- footer end -->
+
+</body>
+</html>

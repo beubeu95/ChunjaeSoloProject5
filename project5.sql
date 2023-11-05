@@ -7,6 +7,10 @@ CREATE TABLE ROLE(
 	role VARCHAR(255) DEFAULT NULL
 );
 
+SELECT * FROM ROLE;
+
+INSERT INTO ROLE VALUES (DEFAULT, 'ADMIN');
+
 CREATE TABLE user(
 	user_id INT PRIMARY KEY AUTO_INCREMENT,
 	active INT DEFAULT 0, 
@@ -15,11 +19,19 @@ CREATE TABLE user(
 	password VARCHAR(300) NOT NULL
 );
 
+SELECT * FROM user;
+
+INSERT INTO USER VALUES (DEFAULT, 1, 'admin', '관리자', '1234'); 
+
 CREATE TABLE user_role(
 	user_id INT NOT NULL,
 	role_id INT NOT NULL,
 	PRIMARY KEY (user_id, role_id)
 );
+
+SELECT * FROM user_role;
+
+INSERT INTO user_role VALUES ( 1, 1);
 
 
 CREATE TABLE notice(
@@ -31,5 +43,14 @@ CREATE TABLE notice(
 	cnt INT DEFAULT 0,
 	FOREIGN KEY(author) REFERENCES user(user_id) ON DELETE CASCADE
 );
+
+INSERT INTO notice VALUES (DEFAULT,'샘플 글 제목1  입니다.','여기는 샘플 글 1의 내용입니다.',1,DEFAULT, DEFAULT);
+INSERT INTO notice VALUES (DEFAULT,'샘플 글 제목2  입니다.','여기는 샘플 글 2의 내용입니다.',1,DEFAULT, DEFAULT);
+INSERT INTO notice VALUES (DEFAULT,'샘플 글 제목3  입니다.','여기는 샘플 글 3의 내용입니다.',1,DEFAULT, DEFAULT);
+INSERT INTO notice VALUES (DEFAULT,'샘플 글 제목4  입니다.','여기는 샘플 글 4의 내용입니다.',1,DEFAULT, DEFAULT);
+INSERT INTO notice VALUES (DEFAULT,'샘플 글 제목5  입니다.','여기는 샘플 글 5의 내용입니다.',1,DEFAULT, DEFAULT);
+INSERT INTO notice VALUES (DEFAULT,'샘플 글 제목6  입니다.','여기는 샘플 글 6의 내용입니다.',1,DEFAULT, DEFAULT);
+
+SELECT * FROM notice;
 
 SHOW TABLES;
