@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chunjae.project5.persis.ProductsMapper">
+    <resultMap id="ProductsVO" type="com.chunjae.project5.entity.ProductsVO">
+        <result property="productNo" column="product_no" />
+        <result property="user_id" column="user_id" />
+        <result property="categoryNo" column="category_no" />
+    </resultMap>
+    <select id="getList" parameterType="map">
+    SELECT  a.product_no ,a.title , a.price, c.user_id, a.active, a.condition, a.regdate, a.location, b.category_id
+    FROM products a JOIN category b ON (a.category_id=b.category_no) JOIN user c ON (a.user_id= c.user_id)
+    <where>
+        <if test="type != null">
+            <trim prefixOverrides="OR">
+                <choose>
+                    <when test="type == 'T'.toString()">
+                        a.title  LIKE concat('%', #{keyword}, '%')
+                    </when>
+                    <when test="type == 'C'.toString()">
+                        a.location LIKE concat('%', #{keyword}, '%')
+                    </when>
+                    <when test="type == 'W'.toString()">
+                        c.user_id LIKE concat('%', #{keyword}, '%')
+                    </when>
+                </choose>
+            </trim>
+        </if>
+        <if test="category_no != null">
+            AND b.category_no = #{param.categoryNo}
+        </if>
+    </where>
+    order by a.regdate limit #{postStart}, #{postCount}
+    </select>
+
+    <select id="getCount" resultType="integer">
+        select COUNT(*) from products
+    </select>
+
+    <select id="categories" resultType="com.chunjae.project5.entity.Category">
+        select * from category
+    </select>
+
+    <resultMap id="PhotosVO" type="com.chunjae.project5.entity.PhotosVO">
+        <result property="photoNo" column="photo_no" />
+        <result property="productNo" column="product_no" />
+        <result property="photoFile" column="photo_file" />
+    </resultMap>
+    <select id="photoInfo" parameterType="map">
+        SELECT * FROM photos a JOIN products b ON (a.product_id=b.product_no) WHERE b.product_no = #{param.productNo};
+    </select>
+
+
+</mapper>

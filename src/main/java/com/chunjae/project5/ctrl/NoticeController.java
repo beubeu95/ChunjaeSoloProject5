@@ -2,6 +2,7 @@ package com.chunjae.project5.ctrl;
 
 import com.chunjae.project5.biz.NoticeService;
 import com.chunjae.project5.entity.Notice;
+import com.chunjae.project5.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +20,20 @@ public class NoticeController {
     private NoticeService noticeService;
 
     @GetMapping("/notice/list")
-    public String getList(Model model) {
+    public String getList(HttpServletRequest request, Model model) {
+        int curPage = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 1;
 
-        List<Notice> noticeList = noticeService.getList();
+        Page page = new Page();
+
+        int total = noticeService.getCount(page);
+        page.makeBlock(curPage, total);
+        page.makeLastPageNum(total);
+        page.makePostStart(curPage, total);
+
+        List<Notice> noticeList = noticeService.getList(page);
         model.addAttribute("noticeList", noticeList);
+        model.addAttribute("curPage", curPage);
+        model.addAttribute("page", page);
 
         return "notice/noticeList";
     }
