@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chunjae.project5.persis.BoardMapper">
+
+    <select id="categories" resultType="com.chunjae.project5.entity.BoardCate">
+        select * from boardCate
+    </select>
+
+    <select id="getList" resultType="com.chunjae.project5.entity.BoardVO">
+        <![CDATA[
+        select seq, cateName, title, content, nickname, regdate, visited from board a join boardCate b on(a.cate=b.cate)
+        ]]>
+        <where>
+            <if test="category != null">
+                AND a.cate = #{category}
+            </if>
+        </where>
+        <![CDATA[
+        ORDER BY seq DESC
+        ]]>
+    </select>
+
+    <insert id="boardInsert" parameterType="map">
+        insert into board values(default, #{param.cate}, #{param.title}, #{param.content}, 1, default, default)
+    </insert>
+
+</mapper>

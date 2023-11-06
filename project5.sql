@@ -52,5 +52,3 @@ INSERT INTO notice VALUES (DEFAULT,'샘플 글 제목5  입니다.','여기는 �
 INSERT INTO notice VALUES (DEFAULT,'샘플 글 제목6  입니다.','여기는 샘플 글 6의 내용입니다.',1,DEFAULT, DEFAULT);
 
 SELECT * FROM notice;
-
-SHOW TABLES;
