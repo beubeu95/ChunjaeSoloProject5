@@ -7,4 +7,6 @@ public class UserGrant implements GrantedAuthority {
     public String getAuthority() {
         return "ADMIN";
     }
+
+
 }
