@@ -56,8 +56,8 @@
                                 <th scope="row" th:text="${noticeStat.index}"></th>
                                 <td><a th:text="${notice.title}" th:href="@{/notice/detail(no = ${notice.no})}" style="color:#000000;"></a></td>
                                 <td th:text="${#dates.format(notice.regdate,'yyyy-MM-dd')}"></td>
-                                <td th:if="${notice.author == 1}">관리자</td>
-                                <td th:text="${notice.cnt}"></td>
+                                <td th:if="${notice.nickname == 1}">관리자</td>
+                                <td th:text="${notice.visited}"></td>
                             </tr>
                             </tbody>
                         </table>

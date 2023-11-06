@@ -3,9 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인 페이지</title>
+    <title>커뮤니티 상세보기</title>
+    <div th:replace="/fragments/head.html :: headFragment"></div>
 </head>
 <body>
+<!-- header start -->
+<div th:replace="/fragments/header.html :: headerFragment"></div>
+<!-- header end -->
 
+
+<main id="main">
+
+    <!-- Breadcrumbs start -->
+    <div class="breadcrumbs">
+        <div class="page-header d-flex align-items-center" style="background-image: url('/img/banner.jpg');">
+            <div class="container position-relative">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-6 text-center">
+                        <h2>커뮤니티 상세보기</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <div class="container">
+                <ol>
+                    <li><a href="../">Home</a></li>
+                    <li>커뮤니티 상세보기</li>
+                </ol>
+            </div>
+        </nav>
+    </div>
+    <!-- Breadcrumbs end -->
+
+    <!-- boardDetail start-->
+    <section id="pricing" class="pricing" style="padding-top: 40px !important;">
+        <div class="container" data-aos="fade-up">
+            <div class="col-lg-12" data-aos="fade-up" data-aos-delay="200">
+                <div class="pricing-item featured" style="padding: 0;">
+                    <section style="padding-top: 0;">
+                        <div style="display: flex; justify-content: center;">
+                            <div class="card" style="width: 100%;">
+                                <div class="card-body" >
+                                    <div class="card-title" style="padding-bottom: 20px; border-bottom: 1px solid;">
+                                        <div class="d-flex align-items-center mt-3">
+                                            <div class="ms-3">
+                                                <p class="mb-0" style="font-weight: bold; padding-bottom: 5px;"><h3 th:text="${board.title}"></h3></p>
+                                                <p class="mb-0">작성자 | <span th:if="${board.author == 1}">관리자</span> 작성일 | <span th:text="${#dates.format(board.regdate,'yyyy-MM-dd')}"></span> 조회수 | <span th:text="${board.cnt}"></span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-text mt-4">
+                                        <div class="ms-3">
+                                            <p style="padding-top: 30px; padding-bottom: 100px;}" th:text="${board.content}"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 100%; margin-top: 30px;">
+                            <button class="btn btn-light btn-lg" style="width:200px; float: right; background-color: #0d42ff; font-weight: bold; color: #fff;"><a href="/board/list" style="color: #fff;">목록</a></button>
+                            <button class="btn btn-light btn-lg" style="width:200px; float: right; border-color: #000000; font-weight: bold; margin-left: 10px; margin-right: 10px; "><a th:href="@{/board/delete(no = ${board.no})}">삭제</a></button>
+                            <button class="btn btn-dark btn-lg" style="width:200px; float: right; background-color: #4f5665; font-weight: bold; "><a class="button" th:href="@{/board/update(no=${board.no})}" style="color: #fff;">수정</a></button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- boardDetail end -->
+</main>
+
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- footer start -->
+<div th:replace="/fragments/footer.html :: footerFragment"></div>
+<!-- footer end -->
 </body>
 </html>

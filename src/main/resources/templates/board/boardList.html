@@ -15,7 +15,7 @@
 
     <!-- Breadcrumbs start -->
     <div class="breadcrumbs">
-        <div class="page-header d-flex align-items-center" style="background-image: url('/img/banner.png');">
+        <div class="page-header d-flex align-items-center" style="background-image: url('/img/banner.jpg');">
             <div class="container position-relative">
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-6 text-center">
@@ -38,45 +38,72 @@
     <!-- boardList start -->
     <section id="horizontal-pricing" class="horizontal-pricing pt-0">
         <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons" style="display: flex; width: 70%; justify-content: center; margin: 50px auto;">
-            <label class="btn btn-primary active" style="background-color: #71A894; border: none; font-weight: bold;">
-                <input type="radio" checked="checked" th:checked="${curCategory == null}" th:href="@{/board/list}" style="opacity: 0;"/> 전체
+            <label class="btn btn-primary active" style="background-color: #0d42ff; border: none; font-weight: bold;">
+                <input type="button" checked="checked" th:checked="${curCategory == null}" th:href="@{/board/list}" style="opacity: 0;"/> 전체
             </label>
             <th:block th:each="cate : ${categories}">
                 <label class="btn btn-primary" th:classappend="${cate.cate eq curCategory} ? 'active' : ''" style="background-color: lightgray; color: #000000; border: none; font-weight: bold;">
-                    <input type="radio" th:checked="${cate.cate eq curCategory}" th:href="@{'/board/list?cate=' + ${cate.cate}}" style="opacity: 0;"/> <span th:text="${cate.cateName}"></span>
+                    <input type="button" th:checked="${cate.cate eq curCategory}" th:href="@{/board/list(cate = ${cate.cate})}" style="opacity: 0;"/> <span th:text="${cate.cateName}"></span>
                 </label>
             </th:block>
         </div>
 
 
-    <th:block th:each="board : ${list}">
+        <section id="pricing" class="pricing">
             <div class="container" data-aos="fade-up">
-            <div class="row gy-4 pricing-item" data-aos="fade-up" data-aos-delay="100">
-                <div class="col-lg-3 d-flex align-items-center justify-content-center">
-                    <div style="display: flex; justify-content: center; margin-top: 20px;">
-                        <div class="card" style="width: 90%;">
-                            <div class="card-body">
-                                <div class="card-title" style="padding-bottom: 20px; border-bottom: 1px solid;">
-                                    <div class="d-flex align-items-center mt-3">
-                                        <div class="ms-3">
-                                            <p class="mb-0" style="font-weight: bold; padding-bottom: 5px;">[[${board.cateName}]]</p>
-                                            <h3>[[${board.title}]]</h3>
-                                            <p class="mb-0">작성자 | [[${board.nickname}]] 작성일 | <span th:with="resdate=${board.regdate}">[[${#dates.format(regdate, 'yyyy-MM-dd')}]]</span> 조회수 | [[${board.visited}]]</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-text mt-4">
-                                    <div class="ms-3">
-                                        <p style="padding-top: 30px; padding-bottom: 100px;">[[${board.content}]]</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-lg-12" data-aos="fade-up" data-aos-delay="200">
+                    <div class="pricing-item featured" style="padding:0;">
+                        <table class="table" style="width:100%; ">
+                            <thead>
+                            <tr>
+                                <th scope="col" width="80">#</th>
+                                <th scope="col" width="600">제목</th>
+                                <th scope="col">등록일</th>
+                                <th scope="col">작성자</th>
+                                <th scope="col">조회수</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="board, boardStat : ${list}">
+                                <th scope="row" th:text="${boardStat.index}"></th>
+                                <td><a th:text="${board.title}" th:href="@{/board/detail(seq = ${board.seq})}" style="color:#000000;"></a></td>
+                                <td th:text="${#dates.format(board.regdate,'yyyy-MM-dd')}"></td>
+                                <td th:if="${board.nickname == 1}">관리자</td>
+                                <td th:text="${board.visited}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
-        </th:block>
+        </section>
+
+        <nav aria-label="Page navigation example" >
+            <a th:if="${curPage > 5}" th:href="@{/board/list(page=${page.blockStartNum - 1})}"
+               class="page-link">Previous</a>
+            <a th:if="${page.blockLastNum < page.totalPageCount}" th:href="@{/board/list(page=${page.blockLastNum + 1})}"
+               class="page-link">Next page</a>
+
+            <ul class="pagination justify-content-center">
+                <th:forEach var="i" begin="${page.blockStartNum}" end="${page.blockLastNum}">
+                    <th:choose>
+                        <th:when test="${i == curPage}">
+                            <li class="page-item">
+                                <a th:href="@{/board/list(page=${i})}"
+                                   class="page-link active" aria-label="Page ${i}"
+                                   aria-current="page" style="background-color: #0d42ff; color:#FFFFFF;" >${i}</a>
+                            </li>
+                        </th:when>
+                        <th:otherwise>
+                            <li class="page-item">
+                                <a th:href="@{/board/list(page=${i})}"
+                                class="page-link" aria-label="Page ${i}" aria-current="page">${i}</a>
+                            </li>
+                        </th:otherwise>
+                    </th:choose>
+                </th:forEach>
+            </ul>
+        </nav>
     </section>
 
 </main>

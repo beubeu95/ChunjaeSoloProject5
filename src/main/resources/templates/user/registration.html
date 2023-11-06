@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <div th:replace="/fragments/head.html :: headFragment"></div>
+</head>
+<body>
+<!-- header start -->
+<div th:replace="/fragments/header.html :: headerFragment"></div>
+<!-- header end -->
+<main id="main">
+
+    <!-- Breadcrumbs start -->
+    <div class="breadcrumbs">
+        <div class="page-header d-flex align-items-center" style="background-image: url('/img/banner.png');">
+            <div class="container position-relative">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-6 text-center">
+                        <h2>회원가입</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <div class="container">
+                <ol>
+                    <li><a href="../">Home</a></li>
+                    <li>회원가입</li>
+                </ol>
+            </div>
+        </nav>
+    </div>
+    <!-- Breadcrumbs end -->
+
+    <section id="get-a-quote" class="get-a-quote">
+        <div class="container" data-aos="fade-up">
+            <div class="row g-0" style="border: 1px solid #000000; border-radius: 10px; padding: 30px;">
+                <div class="col-lg-5 quote-bg" style="background-image: url(/img/bannerTrain.jpg);"></div>
+                <div class="col-lg-7" style="margin-top: 110px">
+                    <h2 style="text-align: center; font-weight:bold;">회원가입</h2>
+                    <form th:action="@{/user/registration}" action="#" autocomplete="off" th:object="${user}" method="post">
+                        <div style="margin:10px 100px">
+                            <label th:if="${#fields.hasErrors('loginId')}" th:errors="*{loginId}"></label>
+                            <input type="text" th:field="*{loginId}" placeholder="LogInId" class="form-control" required>
+                        </div>
+                        <div style="margin :10px 100px">
+                            <label th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></label>
+                            <input type="text" th:field="*{userName}" placeholder="userName" class="form-control" required>
+                        </div>
+                        <div style="margin :10px 100px">
+                            <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></label>
+                            <input type="password" th:field="*{password}" placeholder="password" class="form-control" required>
+                        </div>
+                        <div style="margin :10px 100px">
+                            <input type="password" placeholder="passwordConfirm" name="passwordConfirm" id="passwordConfirm" class="form-control" required>
+                        </div>
+                        <div style="margin :10px 100px">
+                            <button type="submit" class="form-control btn btn-dark">회원가입</button>
+                        </div>
+                        <span th:utext="${successMessage}"></span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- footer start -->
+<div th:replace="/fragments/footer.html :: footerFragment"></div>
+<!-- footer end -->
+</body>
+</html>

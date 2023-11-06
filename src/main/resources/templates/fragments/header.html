@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <link id="headerPath" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
 </head>
 <body>
-
 <header th:fragment="headerFragment" id="header" class="header d-flex align-items-center fixed-top">
         <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
@@ -37,11 +36,12 @@
                             <li><a href="#">Drop Down 4</a></li>
                         </ul>
                     </li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a class="get-a-quote" href="get-a-quote.html">Get a Quote</a></li>
+                    <li><a class="get-a-quote"  sec:authorize="!isAuthenticated()" th:href="@{/user/term}" style="background-color: #6c757d;">JOIN</a></li>
+                    <li><a class="get-a-quote" sec:authorize="!isAuthenticated()" th:href="@{/user/login}" style="margin-left: 10px;">LOGIN</a></li>
+                    <li><a class="get-a-quote"  sec:authorize="isAuthenticated()" th:href="@{/admin/home}" style="background-color: #6c757d;">ADMIN</a></li>
+                    <li><a class="get-a-quote" sec:authorize="isAuthenticated()" th:href="@{/logout}" style="margin-left: 10px;">LOGOUT</a></li>
                 </ul>
-            </nav><!-- .navbar -->
-
+            </nav>
         </div>
     </header>
 

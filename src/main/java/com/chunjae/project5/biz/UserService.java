@@ -37,10 +37,12 @@ public class UserService implements UserDetailsService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setActive(1);
         userMapper.setUserInfo(user);
+        User mem = userMapper.getLastInsertUser();
+        System.out.println("mem : " + mem.toString());
         Role role = roleMapper.getRoleInfo("USER");
         UserRole userRole = new UserRole();
         userRole.setRoleId(role.getId());
-        userRole.setUserId(user.getId());
+        userRole.setUserId(mem.getId());
         userRoleMapper.setUserRoleInfo(userRole);
     }
 

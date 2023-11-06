@@ -20,8 +20,35 @@
         ]]>
     </select>
 
+    <select id="getCount" resultType="integer">
+        select count(*) from board
+        <where>
+            <if test="category != null">
+                AND cate = #{category}
+            </if>
+        </where>
+    </select>
+
+    <select id="boardDetail" resultType="com.chunjae.project5.entity.BoardVO">
+        select seq, cateName, title, content, nickname, regdate, visited
+        from board a join boardCate b on (a.cate = b.cate)
+        where seq = #{seq}
+    </select>
+
+    <update id="visitedCount">
+        update board set visited = visited + 1 where seq = #{seq}
+    </update>
+
     <insert id="boardInsert" parameterType="map">
         insert into board values(default, #{param.cate}, #{param.title}, #{param.content}, 1, default, default)
     </insert>
+
+    <update id="boardEdit" parameterType="map">
+        update board set title = #{param.title}, content = #{param.content} where seq = #{param.seq}
+    </update>
+
+    <delete id="boardDelete">
+        delete from board where seq = #{seq}
+    </delete>
 
 </mapper>
