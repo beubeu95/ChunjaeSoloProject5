@@ -37,20 +37,19 @@
     <!-- Breadcrumbs end -->
 
     <!-- noticeDetail start-->
-    <section id="pricing" class="pricing">
+    <section id="pricing" class="pricing" style="padding-top: 40px !important;">
         <div class="container" data-aos="fade-up">
             <div class="col-lg-12" data-aos="fade-up" data-aos-delay="200">
-                <div class="pricing-item featured">
+                <div class="pricing-item featured" style="padding: 0;">
                     <section style="padding-top: 0;">
-                        <div style="display: flex; justify-content: center; margin-top: 100px;">
-                            <div class="card" style="width: 90%;">
+                        <div style="display: flex; justify-content: center;">
+                            <div class="card" style="width: 100%;">
                                 <div class="card-body" >
                                     <div class="card-title" style="padding-bottom: 20px; border-bottom: 1px solid;">
                                         <div class="d-flex align-items-center mt-3">
                                             <div class="ms-3">
-                                                <h3 th:text="${notice.title}"></h3>
                                                 <p class="mb-0" style="font-weight: bold; padding-bottom: 5px;"><h3 th:text="${notice.title}"></h3></p>
-                                                <p class="mb-0">작성자 | <span th:text="${notice.author}"></span> 작성일 | <span th:text="${#dates.format(notice.regdate,'yyyy-MM-dd')}"></span> 조회수 | <span th:text="${notice.cnt}"></span></p>
+                                                <p class="mb-0">작성자 | <span th:if="${notice.author == 1}">관리자</span> 작성일 | <span th:text="${#dates.format(notice.regdate,'yyyy-MM-dd')}"></span> 조회수 | <span th:text="${notice.cnt}"></span></p>
                                             </div>
                                         </div>
                                     </div>
@@ -62,7 +61,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="width: 95%; margin-top: 30px;">
+                        <div style="width: 100%; margin-top: 30px;">
                             <button class="btn btn-light btn-lg" style="width:200px; float: right; background-color: #0d42ff; font-weight: bold; color: #fff;"><a href="/notice/list" style="color: #fff;">목록</a></button>
                             <button class="btn btn-light btn-lg" style="width:200px; float: right; border-color: #000000; font-weight: bold; margin-left: 10px; margin-right: 10px; "><a th:href="@{/notice/delete(no = ${notice.no})}">삭제</a></button>
                             <button class="btn btn-dark btn-lg" style="width:200px; float: right; background-color: #4f5665; font-weight: bold; "><a class="button" th:href="@{/notice/update(no=${notice.no})}" style="color: #fff;">수정</a></button>
