@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 목록</title>
+    <div th:replace="/fragments/head.html :: headFragment"></div>
+</head>
+<body>
+
+<!-- header start -->
+<div th:replace="/fragments/header.html :: headerFragment"></div>
+<!-- header end -->
+
+
+<main id="main">
+
+    <!-- Breadcrumbs start -->
+    <div class="breadcrumbs">
+        <div class="page-header d-flex align-items-center" style="background-image: url('/img/banner.jpg');">
+            <div class="container position-relative">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-6 text-center">
+                        <h2>상품목록</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <div class="container">
+                <ol>
+                    <li><a href="../">Home</a></li>
+                    <li>상품목록</li>
+                </ol>
+            </div>
+        </nav>
+    </div>
+    <!-- Breadcrumbs end -->
+
+    <section id="horizontal-pricing" class="horizontal-pricing pt-0">
+        <ul style="display: flex; justify-content: center;">
+            <li th:if="${curCategory eq null}" style="margin-right: 10px;">
+                <a th:href="@{/products/list}" class="btn btn-dark font-weight-bold">전체</a>
+            </li>
+            <li th:if="${curCategory != null}" style="margin-right: 10px;">
+                <a th:href="@{/products/list}" class="btn btn-dark">전체</a>
+            </li>
+            <th:block th:each="cate : ${categories}">
+                <li style="margin-right: 10px;">
+                    <a th:href="@{/products/list(cate=${cate.category})}" th:class="|btn btn-dark ${curCategory eq cate.category} ? 'font-weight-bold' : ''|" th:text="${cate.categoryName}"></a>
+                </li>
+            </th:block>
+        </ul>
+
+        <form th:action="@{/products/list}" method="get" class="field has-addons has-addons-right" style="margin: 70px auto; width: 70%;">
+            <div class="input-group">
+                <select id="type" name="type" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"/>
+                <option class="dropdown-item" value="T" style="background-color: #fff;"> 제목 </option>
+                <option class="dropdown-item" value="C" style="background-color: #fff;"> 내용 </option>
+                <option class="dropdown-item" value="W" style="background-color: #fff;"> 작성자 </option>
+                </select>
+                <input class="form-control" type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요" th:value="${page.keyword}" aria-label="Text input with 2 dropdown buttons" autocomplete="false">
+                <input type="submit" class="btn btn-outline-secondary" value="검색"/>
+            </div>
+        </form>
+
+        <div class="row">
+                <div class="col-lg-4 mb-5" th:each="product : ${list}">
+                    <div class="card border-0 bg-light shadow-sm pb-2">
+                        <img class="card-img-top mb-2" src="@{/img/upload/products/${product.photoFile}" alt="" />
+                        <div class="card-body text-center">
+                            <h4 class="card-title" th:text="${product.title}"></h4>
+                            <p class="card-text" th:text="${product.description}"></p>
+                        </div>
+                        <div class="card-footer bg-transparent py-4 px-5">
+                            <div class="row border-bottom">
+                                <div class="col-6 py-1 text-right border-right">
+                                    <strong style="text-align: center;">지역</strong>
+                                </div>
+                                <div class="col-6 py-1" style="text-align: center;" th:text="${product.location}"></div>
+                            </div>
+                            <div class="row border-bottom">
+                                <div class="col-6 py-1 text-right border-right">
+                                    <strong style="text-align: center;">상태</strong>
+                                </div>
+                                <div class="col-6 py-1"  style="font-size: 14px; padding:0px;" th:text="${product.condition}"></div>
+                            </div>
+                            <div class="row border-bottom">
+                                <div class="col-6 py-1 text-right border-right">
+                                    <strong style="text-align: center;">거래상태</strong>
+                                </div>
+                                <div class="col-6 py-1" style="text-align: center;" th:text="${product.active}"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 py-1 text-right border-right">
+                                    <strong style="text-align: center;">날짜</strong>
+                                </div>
+                                <div class="col-6 py-1" style="text-align: center;" th:text="${product.regdate}"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 py-1 text-right border-right">
+                                    <strong style="text-align: center;">작성자</strong>
+                                </div>
+                                <div class="col-6 py-1" style="text-align: center;" th:text="${product.userId}"></div>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            </c:forEach>
+        </div>
+
+        <div class="oneMusic-pagination-area wow">
+            <ul class="pagination justify-content-center mb-0">
+                <li th:if="${curPage > 5}" class="page-item">
+                    <a th:href="@{|/products/list?page=${page.blockStartNum - 1}|}" class="page-link">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </a>
+                </li>
+                <th:block th:each="i: ${#numbers.sequence(page.blockStartNum, page.blockLastNum)}">
+                    <li th:class="${i == curPage} ? 'page-item active' : 'page-item'">
+                        <a th:href="@{|/products/list?page=${i}|}" class="page-link" aria-label="Page ${i}" aria-current="${i == curPage}" th:text="${i}"></a>
+                    </li>
+                </th:block>
+                <li th:if="${page.blockLastNum < page.totalPageCount}" class="page-item">
+                    <a th:href="@{|/products/list?page=${page.blockLastNum + 1}|}" class="page-link">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+</main>
+
+
+
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+
+<!-- footer start -->
+<div th:replace="/fragments/footer.html :: footerFragment"></div>
+<!-- footer end -->
+</body>
+</html>

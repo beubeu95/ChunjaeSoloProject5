@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>커뮤니티 수정하기</title>
+    <div th:replace="/fragments/head.html :: headFragment"></div>
+</head>
+<body>
+<!-- header start -->
+<div th:replace="/fragments/header.html :: headerFragment"></div>
+<!-- header end -->
+
+<main id="main">
+
+    <!-- Breadcrumbs start -->
+    <div class="breadcrumbs">
+        <div class="page-header d-flex align-items-center" style="background-image: url('/img/banner.jpg');">
+            <div class="container position-relative">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-6 text-center">
+                        <h2>커뮤니티 상세보기</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <div class="container">
+                <ol>
+                    <li><a href="../">Home</a></li>
+                    <li>커뮤니티 상세보기</li>
+                </ol>
+            </div>
+        </nav>
+    </div>
+    <!-- Breadcrumbs end -->
+
+    <!-- boardDetail start-->
+    <section id="pricing" class="pricing" style="padding-top: 40px !important;">
+        <div class="container" data-aos="fade-up">
+            <div class="col-lg-12" data-aos="fade-up" data-aos-delay="200">
+                <div class="pricing-item featured" style="padding: 0;">
+                    <form th:action="@{/board/update}" method="post">
+
+                        <div class="col-12">
+                            <div class="card w-100">
+                                <div class="card-body">
+                                    <div class="table-responsive project-list">
+                                        <table class="table project-table table-centered table-nowrap">
+                                            <tbody>
+                                            <tr>
+                                                <th class="text-center" style="vertical-align: middle; width: 15%;">카테고리</th>
+                                                <td>
+                                                    <div class="panel single-accordion">
+                                                        <select name="cate" id="cate" th:field="*{detail.cate}" class="collapseOne w-100" style="border: 1px solid #ced4da; border-radius: 5px; padding: 8px;">
+                                                            <option th:each="category : ${categories}" th:value="${category.cate}" th:selected="${detail.cateName eq category.cateName}" th:text="${category.cateName}"></option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <input type="hidden" th:value="${detail.seq}" id="seq" name="seq">
+                                                <th class="text-center" style="vertical-align: middle; width: 15%;">제목</th>
+                                                <td><input type="text" id="title" name="title" class="form-control" th:value="${detail.title}" required></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6" style="font-size: 15px;">
+                                                    <textarea name="content" id="content" th:text="${detail.content}" cols="100" rows="8" maxlength="1000" class="single-textarea" style="height: 400px; border: 1px solid #cbcbcb"></textarea>
+                                                    <script>
+                                                        $(document).ready(function () { $("#content").cleditor(); });
+                                                    </script>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="btn-group float-right mr-3" style="float: right;">
+                                            <a th:href="@{board/list}" class="btn btn-outline-dark">목록</a>
+                                            <input type="submit" class="btn btn-dark" style="height: 100%" value="등록">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- footer start -->
+<div th:replace="/fragments/footer.html :: footerFragment"></div>
+<!-- footer end -->
+</body>
+</html>

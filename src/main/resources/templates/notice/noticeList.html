@@ -56,13 +56,33 @@
                                 <th scope="row" th:text="${noticeStat.index}"></th>
                                 <td><a th:text="${notice.title}" th:href="@{/notice/detail(no = ${notice.no})}" style="color:#000000;"></a></td>
                                 <td th:text="${#dates.format(notice.regdate,'yyyy-MM-dd')}"></td>
-                                <td th:if="${notice.nickname == 1}">관리자</td>
-                                <td th:text="${notice.visited}"></td>
+                                <td th:if="${notice.author == 1}">관리자</td>
+                                <td th:text="${notice.cnt}"></td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+        </div>
+
+        <div class="oneMusic-pagination-area wow">
+            <ul class="pagination justify-content-center mb-0">
+                <li th:if="${curPage > 5}" class="page-item">
+                    <a th:href="@{|/notice/list?page=${page.blockStartNum - 1}|}" class="page-link">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </a>
+                </li>
+                <th:block th:each="i: ${#numbers.sequence(page.blockStartNum, page.blockLastNum)}">
+                    <li th:class="${i == curPage} ? 'page-item active' : 'page-item'">
+                        <a th:href="@{|/notice/list?page=${i}|}" class="page-link" aria-label="Page ${i}" aria-current="${i == curPage}" th:text="${i}"></a>
+                    </li>
+                </th:block>
+                <li th:if="${page.blockLastNum < page.totalPageCount}" class="page-item">
+                    <a th:href="@{|/notice/list?page=${page.blockLastNum + 1}|}" class="page-link">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </li>
+            </ul>
         </div>
     </section>
     <!-- noticeList end -->

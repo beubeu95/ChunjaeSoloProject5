@@ -37,16 +37,21 @@
 
     <!-- boardList start -->
     <section id="horizontal-pricing" class="horizontal-pricing pt-0">
-        <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons" style="display: flex; width: 70%; justify-content: center; margin: 50px auto;">
-            <label class="btn btn-primary active" style="background-color: #0d42ff; border: none; font-weight: bold;">
-                <input type="button" checked="checked" th:checked="${curCategory == null}" th:href="@{/board/list}" style="opacity: 0;"/> 전체
-            </label>
+        <ul style="display: flex; justify-content: center;">
+            <li th:if="${curCategory eq null}" style="margin-right: 10px;">
+                <a th:href="@{/board/list}" class="btn btn-dark font-weight-bold">전체</a>
+            </li>
+            <li th:if="${curCategory != null}" style="margin-right: 10px;">
+                <a th:href="@{/board/list}" class="btn btn-dark">전체</a>
+            </li>
             <th:block th:each="cate : ${categories}">
-                <label class="btn btn-primary" th:classappend="${cate.cate eq curCategory} ? 'active' : ''" style="background-color: lightgray; color: #000000; border: none; font-weight: bold;">
-                    <input type="button" th:checked="${cate.cate eq curCategory}" th:href="@{/board/list(cate = ${cate.cate})}" style="opacity: 0;"/> <span th:text="${cate.cateName}"></span>
-                </label>
+                <li style="margin-right: 10px;">
+                    <a th:href="@{/board/list(cate=${cate.cate})}" th:class="|btn btn-dark ${curCategory eq cate.cate} ? 'font-weight-bold' : ''|" th:text="${cate.cateName}"></a>
+                </li>
             </th:block>
-        </div>
+        </ul>
+
+
 
 
         <section id="pricing" class="pricing">
@@ -78,32 +83,25 @@
             </div>
         </section>
 
-        <nav aria-label="Page navigation example" >
-            <a th:if="${curPage > 5}" th:href="@{/board/list(page=${page.blockStartNum - 1})}"
-               class="page-link">Previous</a>
-            <a th:if="${page.blockLastNum < page.totalPageCount}" th:href="@{/board/list(page=${page.blockLastNum + 1})}"
-               class="page-link">Next page</a>
-
-            <ul class="pagination justify-content-center">
-                <th:forEach var="i" begin="${page.blockStartNum}" end="${page.blockLastNum}">
-                    <th:choose>
-                        <th:when test="${i == curPage}">
-                            <li class="page-item">
-                                <a th:href="@{/board/list(page=${i})}"
-                                   class="page-link active" aria-label="Page ${i}"
-                                   aria-current="page" style="background-color: #0d42ff; color:#FFFFFF;" >${i}</a>
-                            </li>
-                        </th:when>
-                        <th:otherwise>
-                            <li class="page-item">
-                                <a th:href="@{/board/list(page=${i})}"
-                                class="page-link" aria-label="Page ${i}" aria-current="page">${i}</a>
-                            </li>
-                        </th:otherwise>
-                    </th:choose>
-                </th:forEach>
+        <div class="oneMusic-pagination-area wow">
+            <ul class="pagination justify-content-center mb-0">
+                <li th:if="${curPage > 5}" class="page-item">
+                    <a th:href="@{|/board/list?page=${page.blockStartNum - 1}|}" class="page-link">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </a>
+                </li>
+                <th:block th:each="i: ${#numbers.sequence(page.blockStartNum, page.blockLastNum)}">
+                    <li th:class="${i == curPage} ? 'page-item active' : 'page-item'">
+                        <a th:href="@{|/board/list?page=${i}|}" class="page-link" aria-label="Page ${i}" aria-current="${i == curPage}" th:text="${i}"></a>
+                    </li>
+                </th:block>
+                <li th:if="${page.blockLastNum < page.totalPageCount}" class="page-item">
+                    <a th:href="@{|/board/list?page=${page.blockLastNum + 1}|}" class="page-link">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </li>
             </ul>
-        </nav>
+        </div>
     </section>
 
 </main>

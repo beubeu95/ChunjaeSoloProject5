@@ -3,7 +3,11 @@
 <mapper namespace="com.chunjae.project5.persis.NoticeMapper">
 
     <select id="getList" resultType="com.chunjae.project5.entity.Notice">
-        select * from notice order by regdate desc
+        select * from notice order by regdate desc LIMIT #{postStart}, #{postCount}
+    </select>
+
+    <select id="getCount" resultType="integer">
+    select count(*) from notice
     </select>
 
     <select id="getNotice" parameterType="com.chunjae.project5.entity.Notice">
