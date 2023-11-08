@@ -55,7 +55,7 @@
                                     </div>
                                     <div class="card-text mt-4">
                                         <div class="ms-3">
-                                            <p style="padding-top: 30px; padding-bottom: 100px;}" th:text="${board.content}"></p>
+                                            <p id="content" style="padding-top: 30px; padding-bottom: 100px;}" th:text="${board.content}"></p>
                                         </div>
                                     </div>
                                 </div>
@@ -80,4 +80,9 @@
 <div th:replace="/fragments/footer.html :: footerFragment"></div>
 <!-- footer end -->
 </body>
+<script th:inline="javascript">
+    $(document).ready(function(){
+        $("#content").html($("#content").text());
+    })
+</script>
 </html>

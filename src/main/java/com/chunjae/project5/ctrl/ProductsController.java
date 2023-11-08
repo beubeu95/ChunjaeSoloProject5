@@ -48,4 +48,10 @@ public class ProductsController {
 
         return "products/productsList";
     }
+
+    @GetMapping("/products/insert")
+    public String productsInsertForm(){
+
+        return "products/productsInsert";
+    }
 }

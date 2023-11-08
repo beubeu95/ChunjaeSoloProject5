@@ -113,7 +113,8 @@ public class BoardController {
             byte[] bytes = upload.getBytes();
 
             //이미지 경로 생성
-            String path = "C:\\hkdev\\proj\\sole\\chunjaeSoloProject5\\project5\\src\\main\\resources\\static\\upload\\board/";	// 이미지 경로 설정(폴더 자동 생성)
+            //String path = "C:\\hkdev\\proj\\sole\\chunjaeSoloProject5\\project5\\src\\main\\resources\\static\\upload\\board/";	// 이미지 경로 설정(폴더 자동 생성)
+            String path = "C:\\hk\\project\\sole\\chunjaeSoloProject5\\src\\main\\resources\\static\\upload\\board/";
             //String path = request.getRealPath("/resource/uploadckImage/");
             String ckUploadPath = path + uid + "_" + fileName;
             File folder = new File(path);
@@ -154,7 +155,8 @@ public class BoardController {
     @RequestMapping(value="ckImgSubmit.do")
     public void ckSubmit(@RequestParam(value="uid") String uid, @RequestParam(value="fileName") String fileName, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //서버에 저장된 이미지 경로
-        String path = "C:\\hkdev\\proj\\sole\\chunjaeSoloProject5\\project5\\src\\main\\resources\\static\\upload\\board/";	// 이미지 경로 설정(폴더 자동 생성)
+        //String path = "C:\\hkdev\\proj\\sole\\chunjaeSoloProject5\\project5\\src\\main\\resources\\static\\upload\\board/";	// 이미지 경로 설정(폴더 자동 생성)
+        String path = "C:\\hk\\project\\sole\\chunjaeSoloProject5\\src\\main\\resources\\static\\upload\\board/";	// 이미지 경로 설정(폴더 자동 생성)
         //String path = request.getRealPath("/resource/uploadckImage/");
         System.out.println("path:"+path);
         String sDirPath = path + uid + "_" + fileName;
