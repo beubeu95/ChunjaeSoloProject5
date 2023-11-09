@@ -19,7 +19,15 @@ spring:
     url: jdbc:mariadb://localhost:3306/tsherpa
     username: root
     password: 1234
-
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 100MB
+  messages:
+    basename: messages
+    encoding: UTF-8
+#        itemImgLocation=C:/chunjae/project5
+#        uploadPath=file:///C:/chunjae/project5
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
@@ -28,3 +36,6 @@ mybatis:
 
 logging:
   config: classpath:logback.xml
+
+
+

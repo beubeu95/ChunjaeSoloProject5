@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -50,8 +51,17 @@ public class ProductsController {
     }
 
     @GetMapping("/products/insert")
-    public String productsInsertForm(){
+    public String productsInsertForm(Model model){
+
+        List<Category> categories = productsService.categories();
+        model.addAttribute("categories", categories);
 
         return "products/productsInsert";
+    }
+
+    @PostMapping("/products/insert")
+    public String productsInsert(){
+
+        return "redirect:/products/list";
     }
 }

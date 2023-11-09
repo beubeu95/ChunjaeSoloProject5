@@ -54,5 +54,9 @@
         SELECT * FROM photos a JOIN products b ON (a.product_id=b.product_no) WHERE b.product_no = #{param.productNo};
     </select>
 
+    <insert id="productsInsert">
+        insert into products (category, title, price, description, location, condition) values (#{category}, #{title}, #{price}, #{description}, #{location}, #{condition})
+    </insert>
+
 
 </mapper>
