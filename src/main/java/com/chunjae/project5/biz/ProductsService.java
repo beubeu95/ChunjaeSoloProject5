@@ -1,7 +1,6 @@
 package com.chunjae.project5.biz;
 
 import com.chunjae.project5.entity.Category;
-import com.chunjae.project5.entity.PhotosVO;
 import com.chunjae.project5.entity.Products;
 import com.chunjae.project5.entity.ProductsVO;
 import com.chunjae.project5.persis.ProductsMapper;
@@ -21,7 +20,6 @@ public class ProductsService {
     public List<ProductsVO> getList(Page page) { return productsMapper.getList(page); }
     public List<Category> categories() {return productsMapper.categories(); }
     public int getCount(Page page) { return productsMapper.getCount(page); }
-    public List<PhotosVO> photosList(int productNo) { return productsMapper.photosList(productNo); }
     public void productsInsert(Products products) { productsMapper.productsInsert(products); }
 
 

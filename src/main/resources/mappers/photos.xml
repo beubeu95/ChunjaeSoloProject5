@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chunjae.project5.persis.PhotosMapper">
+    <resultMap id="Photos" type="com.chunjae.project5.entity.Photos">
+        <result property="photoNo" column="photo_no" />
+        <result property="productNo" column="product_no" />
+        <result property="photoFile" column="photo_file" />
+    </resultMap>
+    <insert id="photosInsert" parameterType="map">
+        insert into photos(product_no, savefolder, photo_file, realname)
+        values
+        <foreach collection="photesList" item="photos" separator=" , ">
+            (#{param.productNo}, #{param.savefolder}, #{param.photoFile}, #{param.realname})
+        </foreach>
+    </insert>
+
+    <select id="photosList" parameterType="map">
+        SELECT * FROM photos product_no = #{param.product_no};
+    </select>
+
+    <delete id="photosDelete" parameterType="map">
+        delete from photos
+        where product_no = #{param.product_no}
+    </delete>
+
+</mapper>

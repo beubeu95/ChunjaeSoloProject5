@@ -99,10 +99,13 @@ SELECT * FROM products;
 -- 사진 파일
 CREATE TABLE photos (
    photo_no INT AUTO_INCREMENT PRIMARY KEY,      	-- 번호 	
-   product_id INT NOT NULL,		 						-- 상품 id
+   product_no INT NOT NULL,
+	saveFolder VARCHAR(300),	 						-- 상품 id
    photo_file VARCHAR(1000),		 						-- 난수화된 파일 이름
-	realname VARCHAR(250)			 						-- 실제 파일 이름
-);
+	realname VARCHAR(250),
+	FOREIGN KEY(product_no) REFERENCES products(product_no) ON DELETE CASCADE 			 						-- 실제 파일 이름
+); 
+
 
 -- 카테고리
 CREATE TABLE category (

@@ -17,5 +17,5 @@ public class ProductsVO {
     private String location;
     private String category;
     private String photoFile;
-    private List<PhotosVO> photosVOList;
+    private List<Photos> photosList;
 }

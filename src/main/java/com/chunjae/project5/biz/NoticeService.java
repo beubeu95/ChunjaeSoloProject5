@@ -20,6 +20,5 @@ public class NoticeService {
     public void noticeInsert(Notice param) { noticeMapper.noticeInsert(param); }
     public void noticeUpdate(Notice param) { noticeMapper.noticeUpdate(param); }
     public void noticeDelete(int no) { noticeMapper.noticeDelete(no); }
-
     public int getCount(Page page) { return noticeMapper.getCount(page); }
 }

@@ -3,6 +3,7 @@ package com.chunjae.project5.entity;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class Products {
@@ -16,4 +17,5 @@ public class Products {
     private Date regdate;
     private String location;
     private String category;
+    private List<Photos> photosList;
 }

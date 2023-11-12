@@ -5,7 +5,9 @@ import lombok.Data;
 @Data
 public class Photos {
     private int photoNo;
-    private int productId;
+    private int productNo;
+    private String saveFoler;
     private String photoFile;
     private String realname;
+
 }

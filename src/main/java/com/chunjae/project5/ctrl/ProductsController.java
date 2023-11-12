@@ -2,17 +2,25 @@ package com.chunjae.project5.ctrl;
 
 import com.chunjae.project5.biz.ProductsService;
 import com.chunjae.project5.entity.Category;
+import com.chunjae.project5.entity.Photos;
+import com.chunjae.project5.entity.Products;
 import com.chunjae.project5.entity.ProductsVO;
 import com.chunjae.project5.util.BoardPage;
 import com.chunjae.project5.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class ProductsController {
@@ -59,9 +67,44 @@ public class ProductsController {
         return "products/productsInsert";
     }
 
-    @PostMapping("/products/insert")
-    public String productsInsert(){
+    @RequestMapping(value = "insert", method = RequestMethod.POST)
+    public String write(Products products, @RequestParam("upfile") MultipartFile[] files, HttpServletRequest req, Model model, RedirectAttributes rttr) throws Exception {
+
+
+            String realPath = req.getRealPath("/resources/upload/products/");           // 업로드 경로 설정
+            String today = new SimpleDateFormat("yyMMdd").format(new Date());
+            String saveFolder = realPath + today;
+            File folder = new File(saveFolder);
+            if(!folder.exists()) {                                  // 폴더가 존재하지 않으면 폴더 생성
+                folder.mkdirs();
+            }
+            List<Photos> photosList = new ArrayList<>();        // 첨부파일 정보를 리스트로 생성
+            for(MultipartFile file : files) {
+                Photos photos = new Photos();
+                String originalFileName = file.getOriginalFilename(); // 첨부파일의 실제 파일명
+                if(!originalFileName.isEmpty()) {
+                    String saveFileName = UUID.randomUUID().toString() + originalFileName.substring(originalFileName.lastIndexOf("."));     // 파일 이름을 랜덤으로 설정
+                    photos.setSaveFoler(today);
+                    photos.setRealname(originalFileName);
+                    photos.setPhotoFile(saveFileName);
+                    file.transferTo(new File(folder, saveFileName));    // 파일을 업로드 폴더에 저장
+                }
+                photosList.add(photos);
+            }
+            products.setPhotosList(photosList);
+
+
+            try {
+                productsService.productsInsert(products);
+                rttr.addFlashAttribute("msg", "자료실에 글을 등록하였습니다");
+            } catch(Exception e) {
+                e.printStackTrace();
+                rttr.addFlashAttribute("msg", "글 작성 중 문제가 발생했습니다");
+            }
 
         return "redirect:/products/list";
     }
+
+    
+
 }

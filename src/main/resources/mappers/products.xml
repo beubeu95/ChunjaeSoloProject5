@@ -45,15 +45,6 @@
         select * from category
     </select>
 
-    <resultMap id="PhotosVO" type="com.chunjae.project5.entity.PhotosVO">
-        <result property="photoNo" column="photo_no" />
-        <result property="productNo" column="product_no" />
-        <result property="photoFile" column="photo_file" />
-    </resultMap>
-    <select id="photosList" parameterType="map">
-        SELECT * FROM photos a JOIN products b ON (a.product_id=b.product_no) WHERE b.product_no = #{param.productNo};
-    </select>
-
     <insert id="productsInsert">
         insert into products (category, title, price, description, location, condition) values (#{category}, #{title}, #{price}, #{description}, #{location}, #{condition})
     </insert>
