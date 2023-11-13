@@ -12,9 +12,11 @@ public class ProductsVO {
     private int price;
     private int userId;
     private String active;
-    private String condition;
+    private String condition2;
     private Date regdate;
-    private String location;
+    private String addr1;
+    private String addr2;
+    private String postcode;
     private String category;
     private String photoFile;
     private List<Photos> photosList;

@@ -67,11 +67,11 @@ public class ProductsController {
         return "products/productsInsert";
     }
 
-    @RequestMapping(value = "insert", method = RequestMethod.POST)
+    @RequestMapping(value = "/products/insert", method = RequestMethod.POST)
     public String write(Products products, @RequestParam("upfile") MultipartFile[] files, HttpServletRequest req, Model model, RedirectAttributes rttr) throws Exception {
 
 
-            String realPath = req.getRealPath("/resources/upload/products/");           // 업로드 경로 설정
+            String realPath = req.getRealPath("/resources/static/upload/products/");           // 업로드 경로 설정
             String today = new SimpleDateFormat("yyMMdd").format(new Date());
             String saveFolder = realPath + today;
             File folder = new File(saveFolder);

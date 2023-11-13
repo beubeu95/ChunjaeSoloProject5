@@ -8,8 +8,8 @@
         <result property="productId" column="product_id" />
     </resultMap>
     <select id="getList">
-    SELECT  a.product_no ,a.title , a.price, c.user_id, a.active, a.condition, a.regdate, a.location, b.category, d.photo_file
-    FROM products a JOIN category b ON (a.category=b.category) JOIN user c ON (a.user_id= c.user_id) JOIN photos d ON (a.product_no=d.product_id)
+        SELECT  a.product_no ,a.title , a.price, c.user_id, a.active, a.condition2, a.regdate, a.addr1,a.addr2,a.postcode, b.category, d.photo_file
+        FROM products a JOIN category b ON (a.category=b.category) JOIN user c ON (a.user_id= c.user_id) JOIN photos d ON (a.product_no=d.product_no)
     <where>
         <if test="type != null">
             <trim prefixOverrides="OR">
@@ -46,7 +46,10 @@
     </select>
 
     <insert id="productsInsert">
-        insert into products (category, title, price, description, location, condition) values (#{category}, #{title}, #{price}, #{description}, #{location}, #{condition})
+        insert into products (category, title, price, description, addr1, addr2, postcode, condition2, user_id, active) values (#{category}, #{title}, #{price}, #{description}, #{addr1},  #{addr2},  #{postcode},#{condition2}, 2, '0')
+        <selectKey resultType="int" keyProperty="prodcuct_no" order="AFTER">
+            select LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
 

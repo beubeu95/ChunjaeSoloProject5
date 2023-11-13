@@ -7,15 +7,17 @@ import java.util.List;
 
 @Data
 public class Products {
-    private int productNO;
+    private int productNo;
     private String title;
     private int price;
     private String description;
     private int userId;
     private String active;
-    private String condition;
+    private String condition2;
     private Date regdate;
-    private String location;
+    private String addr1;
+    private String addr2;
+    private String postcode;
     private String category;
     private List<Photos> photosList;
 }

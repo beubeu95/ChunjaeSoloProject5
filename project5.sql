@@ -69,7 +69,7 @@ CREATE TABLE board(
   seq INT PRIMARY KEY AUTO_INCREMENT,
   cate VARCHAR(5) NOT NULL,
   title VARCHAR(200) NOT NULL,
-  content VARCHAR(1000),
+  content VARCHAR(10000),
   nickname int,
   regdate DATETIME DEFAULT CURRENT_TIMESTAMP(),
   visited INT DEFAULT 0,
@@ -99,13 +99,10 @@ SELECT * FROM products;
 -- 사진 파일
 CREATE TABLE photos (
    photo_no INT AUTO_INCREMENT PRIMARY KEY,      	-- 번호 	
-   product_no INT NOT NULL,
-	saveFolder VARCHAR(300),	 						-- 상품 id
+   product_id INT NOT NULL,		 						-- 상품 id
    photo_file VARCHAR(1000),		 						-- 난수화된 파일 이름
-	realname VARCHAR(250),
-	FOREIGN KEY(product_no) REFERENCES products(product_no) ON DELETE CASCADE 			 						-- 실제 파일 이름
-); 
-
+	realname VARCHAR(250)			 						-- 실제 파일 이름
+);
 
 -- 카테고리
 CREATE TABLE category (
