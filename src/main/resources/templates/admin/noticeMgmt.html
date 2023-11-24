@@ -4,22 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항 관리</title>
-    <link rel="shortcut icon" th:href="@{/image/common/logo.ico}">
-    <link rel="stylesheet" th:href="@{/css/styles.min.css}" />
-    <script src="https://kit.fontawesome.com/153ada4eea.js" crossorigin="anonymous"></script>
-    <style>
-        #title {color:#000000; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:700px; }
-    </style>
+    <div th:replace="/fragments/head.html :: headFragment"></div>
+
 </head>
 <body>
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
     <!-- Sidebar Start -->
-    <th:block th:insert="~{layout/adminSide :: adminSide}"></th:block>
+    <div th:replace="/fragments/adminSide.html :: adminSide"></div>
     <!--  Sidebar End -->
     <!--  Main wrapper -->
     <div class="body-wrapper" style="height: 100vh;">
         <!--  Header Start -->
-        <th:block th:insert="~{layout/adminHeader :: adminHeader}"></th:block>
+        <div th:replace="/fragments/adminHeader.html :: adminHeader"></div>
         <!--  Header End -->
         <div class="container-fluid">
             <div class="col-lg-12 d-flex align-items-stretch" style="margin-top:30px;">

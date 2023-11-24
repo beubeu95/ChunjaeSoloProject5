@@ -1,13 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>답변글 작성하기 </title>
-    <th:block th:insert="~{layout/head :: head}"></th:block>
-    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>답변글 작성하기</title>
+    <div th:replace="/fragments/head.html :: headFragment"></div>
+
 </head>
 <body>
-<th:block th:insert="~{layout/header :: header}"></th:block>
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Sidebar Start -->
+    <div th:replace="/fragments/adminSide.html :: adminSide"></div>
+    <!--  Sidebar End -->
+    <!--  Main wrapper -->
+    <div class="body-wrapper" style="height: 100vh;">
+        <!--  Header Start -->
+        <div th:replace="/fragments/adminHeader.html :: adminHeader"></div>
 
 <!-- Page Header Start -->
 <div class="container-fluid page-header py-5 mb-5">
