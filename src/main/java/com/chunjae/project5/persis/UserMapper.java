@@ -11,5 +11,7 @@ public interface UserMapper {
     User findUserByLoginId(@Param("loginId") String loginId);
     void setUserInfo(@Param("param") User param);
     User getLastInsertUser();
+    void addPt(String loginId);
+    void minusPt(String loginId);
 }
 

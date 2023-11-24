@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>커뮤니티</title>
+    <div th:replace="/fragments/head.html :: headFragment"></div>
+</head>
+<body>
+<!-- header start -->
+<div th:replace="/fragments/header.html :: headerFragment"></div>
+<!-- header end -->
+
+<main id="main">
+
+    <!-- Breadcrumbs start -->
+    <div class="breadcrumbs">
+        <div class="page-header d-flex align-items-center" style="background-image: url('/img/banner.jpg');">
+            <div class="container position-relative">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-6 text-center">
+                        <h2>커뮤니티</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <div class="container">
+                <ol>
+                    <li><a href="../">Home</a></li>
+                    <li>커뮤니티</li>
+                </ol>
+            </div>
+        </nav>
+    </div>
+    <!-- Breadcrumbs end -->
+
+<!-- QnA start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div>
+            <th:block sec:authorize="isAuthenticated()">
+            <th:block sec:authorize="hasRole('USER') || hasRole('TEACHER') || hasRole('EMP')">
+            <div class="button-group" style="float:right; margin-bottom: 20px;">
+                <a class="btn btn-primary px-4" th:href="@{/qna/questionInsert}" style="width: 90px; font-size: 13px; font-weight: bold; background-color: #ab7442; border:none;">글쓰기</a>
+            </div>
+            </th:block>
+            </th:block>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="80">번호</th>
+                <th>제목</th>
+                <th scope="col" width="100">작성자</th>
+                <th scope="col" width="150">작성일</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="qna : ${list}">
+                    <td class="has-text-centered" th:text="${qna.qno}"></td>
+                    <th:block th:if="${qna.lev==0}">
+                        <td><a class="qnatTtle" th:href="@{/qna/detail(qno=${qna.qno})}" style="color: #000000;" th:text="${qna.title}"></a></td>
+                    </th:block>
+                    <th:block th:if="${qna.lev==1}">
+                        <td><a class="qnatTtle" th:href="@{/qna/detail(qno=${qna.qno})}" style="color: #000000;" th:text="'&nbsp;&nbsp;&nbsp;&nbsp;⌞'+${qna.title}"></a></td>
+                    </th:block>
+                    <td class="has-text-centered" th:text="${qna.author}"></td>
+                    <td class="has-text-centered" th:text="${#dates.format(qna.resdate,'yyyy-MM-dd')}"></td>
+                </tr>
+                <tr th:if="${list.isEmpty()}">
+                    <td colspan="6">질문글이 없습니다.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top: 30px;"  th:if="${!list.isEmpty()}">
+        <ul class="pagination justify-content-center mb-0">
+            <li th:if="${curPage > 5}" class="page-item">
+                <a th:href="@{|/qna/list?page=${page.blockStartNum - 1}|}" class="page-link">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+            </li>
+            <th:block th:each="i: ${#numbers.sequence(page.blockStartNum, page.blockLastNum)}">
+                <li th:class="${i == curPage} ? 'page-item active' : 'page-item'">
+                    <a th:href="@{|/qna/list?page=${i}|}" class="page-link" aria-label="Page ${i}" aria-current="${i == curPage}" th:text="${i}"></a>
+                </li>
+            </th:block>
+            <li th:if="${page.blockLastNum < page.totalPageCount}" class="page-item">
+                <a th:href="@{|/qna/list?page=${page.blockLastNum + 1}|}" class="page-link">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- qnaList end -->
+
+<th:block th:insert="~{layout/footer :: footer}"></th:block>
+<script th:src="@{/js/main.js}"></script>
+</main>
+
+
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- footer start -->
+<div th:replace="/fragments/footer.html :: footerFragment"></div>
+<!-- footer end -->
+</body>
+</html>

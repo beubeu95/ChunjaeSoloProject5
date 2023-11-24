@@ -28,4 +28,13 @@
         insert into user (active, login_id, user_name, password)
         values (#{param.active}, #{param.loginId}, #{param.userName}, #{param.password})
     </insert>
+
+    <update id="addPt">
+        update user set pt=pt+5 where login_id=#{loginId} and pt &lt; 100
+    </update>
+
+    <update id="minusPt">
+        update user set pt=pt-5 where login_id=#{loginId} and pt &gt; 0
+    </update>
+
 </mapper>

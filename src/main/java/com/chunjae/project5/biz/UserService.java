@@ -52,4 +52,7 @@ public class UserService implements UserDetailsService {
         return new UserPrincipal(user);
     }
 
+    public void addPt(String loginId) { userMapper.addPt(loginId);}
+    public void minusPt(String loginId) { userMapper.minusPt(loginId); }
+
 }

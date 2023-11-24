@@ -2,14 +2,15 @@ CREATE DATABASE tsherpa;
 
 USE tsherpa;
 
-CREATE TABLE ROLE(
-	role_id INT PRIMARY KEY AUTO_INCREMENT,
-	role VARCHAR(255) DEFAULT NULL
+CREATE TABLE role(
+                     role_id INT PRIMARY KEY AUTO_INCREMENT,
+                     role VARCHAR(255) DEFAULT NULL
 );
 
-SELECT * FROM ROLE;
-
-INSERT INTO ROLE VALUES (DEFAULT, 'ADMIN');
+INSERT INTO ROLE VALUES(DEFAULT, 'ADMIN');
+INSERT INTO ROLE VALUES(DEFAULT, 'EMP');
+INSERT INTO ROLE VALUES(DEFAULT, 'TEACHER');
+INSERT INTO ROLE VALUES(99, 'USER');
 
 
 CREATE TABLE user(
@@ -23,17 +24,6 @@ CREATE TABLE user(
 SELECT * FROM user;
 
 INSERT INTO USER VALUES (DEFAULT, 1, 'admin', '관리자', '1234'); 
-
-CREATE TABLE user_role(
-	user_id INT NOT NULL,
-	role_id INT NOT NULL,
-	PRIMARY KEY (user_id, role_id)
-);
-
-SELECT * FROM user_role;
-
-INSERT INTO user_role VALUES ( 1, 1);
-
 
 CREATE TABLE notice(
 	no INT PRIMARY KEY AUTO_INCREMENT,
@@ -81,46 +71,153 @@ SELECT * FROM board;
 
 
 -- 상품
-CREATE TABLE products (
-   product_no INT AUTO_INCREMENT PRIMARY KEY,		/*상품 번호 */ 	
-   title VARCHAR(100) NOT NULL,							/* 제목 */
-   price int NOT NULL,										/* 가격 */
-   description VARCHAR(5000),							  	/* 설명 */
-	user_id INT NOT NULL,								 	/* 작성자 id */
-   active varchar(20) NOT NULL,							/* 거래 상태(거래 완료 여부) */
-   `condition` varchar(20) NOT NULL,					/* 상품 상태(최상 상 중 하) */
-   regdate DATETIME DEFAULT CURRENT_TIMESTAMP,		/*  등록일 */
-   location varchar(200) NOT NULL,						/* 지역 */
-   category_id INT											/* 카테고리 */
+CREATE TABLE market(
+                       marketNo INT AUTO_INCREMENT PRIMARY KEY,	-- 상품 번호
+                       title VARCHAR(100) NOT NULL,	-- 제목
+                       price int NOT NULL,		-- 가격
+                       content VARCHAR(5000),	-- 설명
+                       login_id VARCHAR(255) NOT NULL,	-- 작성자 id
+                       active INT DEFAULT 0 NOT NULL,	-- 거래 상태(거래 완료 여부)
+                       readable INT DEFAULT 0 NOT NULL,
+                       conditions varchar(20) NOT NULL,	-- 상품 상태(최상 상 중 하)
+                       regdate DATETIME DEFAULT CURRENT_TIMESTAMP,	-- 등록일
+                       selected_address VARCHAR(200),     -- 선택 주소
+                       detail_address VARCHAR(100),        -- 상세 주소
+                       xdata DOUBLE,                      -- x
+                       ydata DOUBLE                      -- y
 );
 
-SELECT * FROM products;
-
--- 사진 파일
-CREATE TABLE photos (
-   photo_no INT AUTO_INCREMENT PRIMARY KEY,      	-- 번호 	
-   product_id INT NOT NULL,		 						-- 상품 id
-   photo_file VARCHAR(1000),		 						-- 난수화된 파일 이름
-	realname VARCHAR(250)			 						-- 실제 파일 이름
+CREATE TABLE photos(
+                       photo_no int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                       marketNo INT,
+                       saveFolder VARCHAR(300) NOT NULL,
+                       originFile VARCHAR(300) NOT NULL,
+                       saveFile VARCHAR(300) NOT NULL
 );
 
--- 카테고리
-CREATE TABLE category (
-    category_no VARCHAR(50) PRIMARY KEY, 	/* 번호 */
-    category_name VARCHAR(50) NOT NULL					/* 카테고리명 */
+CREATE TABLE mainphoto(
+                          mainphoto_no int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                          marketNo INT,
+                          saveFolder VARCHAR(300) NOT NULL,
+                          originFile VARCHAR(300) NOT NULL,
+                          saveFile VARCHAR(300) NOT NULL
 );
 
-INSERT INTO category VALUES ('A', '국어');
-INSERT INTO category VALUES ('B', '수학');
-INSERT INTO category VALUES ('C', '영어');
 
 
--- 상품 좋아요
-create table product_likes(
-	userid VARCHAR(20) NOT NULL,      					-- 사용자 ID
-   pno INT NOT NULL,           							-- 상품 no
-   liketime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 	-- 좋아요를 누른 시간
-   PRIMARY KEY (userid, pno)   							-- 사용자 ID와 상품 no 조합으로 각 레코드를 유일하게 식별
+
+
+
+CREATE VIEW detaillist AS
+SELECT
+    m.marketNo,
+    m.title,
+    m.price,
+    m.content,
+    m.login_id,
+    m.active,
+    m.conditions,
+    m.regdate,
+    m.selected_address,
+    m.detail_address,
+    m.xdata,
+    m.ydata,
+    p.saveFolder AS saveFolder,
+    p.originFile AS originFile,
+    p.saveFile AS saveFile
+FROM
+    market m
+        LEFT JOIN photos p ON m.marketNo = p.marketNo;
+
+
+CREATE VIEW totallist as
+SELECT
+    m.marketNo,
+    m.title,
+    m.price,
+    m.content,
+    m.login_id,
+    m.active,
+    m.conditions,
+    m.regdate,
+    m.selected_address,
+    m.detail_address,
+    m.xdata,
+    m.ydata,
+    p.saveFolder AS saveFolder,
+    p.originFile AS originFile,
+    p.saveFile AS saveFile,
+    mp.saveFolder AS mainSaveFolder,
+    mp.originFile AS mainOriginFile,
+    mp.saveFile AS mainSaveFile
+FROM
+    market m
+        LEFT JOIN photos p ON m.marketNo = p.marketNo
+        LEFT JOIN mainphoto mp ON m.marketNo = mp.marketNo;
+
+
+
+
+CREATE VIEW mainlist AS
+SELECT
+    m.marketNo AS marketNo,
+    m.title,
+    m.price,
+    m.readable,
+    m.content,
+    m.login_id,
+    m.active,
+    m.conditions,
+    m.regdate,
+    m.selected_address,
+    m.detail_address,
+    m.xdata,
+    m.ydata,
+    mp.saveFolder AS saveFolder,
+    mp.originFile AS originFile,
+    mp.saveFile AS saveFile
+FROM
+    market m
+        LEFT JOIN mainphoto mp ON m.marketNo = mp.marketNo;
+
+CREATE TABLE faq (
+                     fno INT  PRIMARY KEY AUTO_INCREMENT ,
+                     question VARCHAR(1000) NOT NULL,
+                     author varchar(100),
+                     answer VARCHAR(1000) NOT NULL,
+                     cnt INT DEFAULT 0 NOT NULL
 );
+
+CREATE TABLE qna(
+                    qno int PRIMARY KEY AUTO_INCREMENT,   			-- 번호
+                    title VARCHAR(100) NOT NULL,   					-- 제목
+                    content VARCHAR(10000) NOT NULL,   				-- 내용`
+                    author VARCHAR(16),   								-- 작성자
+                    resdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- 등록일
+                    lev INT DEFAULT 0, 									-- 질문(0), 답변(1)
+                    par INT DEFAULT 0);													-- 질문(자신 레코드의 qno), 답변(질문의 글번호)
+
+
+CREATE TABLE report (
+                        report_id INT PRIMARY KEY AUTO_INCREMENT, -- 신고 번호
+                        marketNo INT,
+                        req_no int,
+                        title varchar(100),-- 게시글 번호
+                        login_id  VARCHAR(255),
+                        reporter VARCHAR(16), -- 신고자
+                        reason VARCHAR(300), -- 이유
+                        report_date DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE likes (
+                       lno INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                       login_id VARCHAR(20) NOT NULL,
+                       marketNo INT,
+                       req_no INT,
+                       liketime DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
 
 COMMIT;

@@ -1,17 +1,18 @@
 package com.chunjae.project5.persis;
 
-import com.chunjae.project5.entity.Board;
+import com.chunjae.project5.entity.Market;
 import com.chunjae.project5.entity.Photos;
-import com.chunjae.project5.entity.Products;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 @Mapper
 public interface PhotosMapper {
-    void photosInsert(Products products);
-    List<Photos> photosList (int productNO);
-    public void photosDelete(@Param("productNo") int productNo);
+    public List<Photos> photosList(int marketNo) throws Exception;
+    public void photosInsert(Market market) throws Exception;
+    public void photosEdit(Market market) throws Exception;
+    public void photosDelete(int marketNo) throws Exception;
 
 }

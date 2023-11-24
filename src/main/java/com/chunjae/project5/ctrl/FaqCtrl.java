@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @Controller
-public class HomeController {
+public class FaqCtrl {
 
     @Autowired
     private FaqService faqService;
 
-    @GetMapping("/")
-    public String Home(Model model) {
-        List<Faq> list = faqService.getList();
-        model.addAttribute("list", list);
-        return "index";
-    }
+    @GetMapping("/faq/list")
+    public String faqList(Model model) {
 
+        List<Faq> list= faqService.getList();
+        model.addAttribute("list", list);
+        return "faq/faqList";
+    }
 }

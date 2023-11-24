@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Photos {
-    private int photo_no;
+public class Likes {
+    private String loginId;
     private int marketNo;
-    private String saveFolder;
-    private String originFile;
-    private String saveFile;
+    private int reqNo;
+    private Date liketime;
 }
