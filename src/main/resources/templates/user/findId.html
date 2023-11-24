@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아이디 찾기</title>
+    <div th:replace="/fragments/head.html :: headFragment"></div>
+</head>
+<body>
+<!-- header start -->
+<div th:replace="/fragments/header.html :: headerFragment"></div>
+<!-- header end -->
+
+<main id="main">
+
+    <!-- Breadcrumbs start -->
+    <div class="breadcrumbs">
+        <div class="page-header d-flex align-items-center" style="background-image: url('/img/banner.jpg');">
+            <div class="container position-relative">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-6 text-center">
+                        <h2>아이디 찾기</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <div class="container">
+                <ol>
+                    <li><a href="../">Home</a></li>
+                    <li>아이디 찾기</li>
+                </ol>
+            </div>
+        </nav>
+    </div>
+    <!-- Breadcrumbs end -->
+
+
+    <section id="get-a-quote" class="get-a-quote">
+        <div class="container" data-aos="fade-up">
+            <div class="row g-0">
+                <div class="col-lg-5 quote-bg" style="background-image: url(/img/banner.jpg);"></div>
+                <div class="col-lg-7">
+
+<!-- content 영역 시작 -->
+      <section class="vh-100 bg-primary">
+          <div class="container py-5 h-100">
+              <div class="row d-flex justify-content-center align-items-center h-100">
+                  <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                      <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                          <div class="card-body p-5 text-center">
+                                <form th:action="@{/findId}" method="post">
+                                        <div style="margin-top: 30px">
+                                            <p>아이디 찾기</p>
+                                        </div>
+                                      <div class="form-outline mb-4">
+                                          <input type="email" placeholder="이메일을 입력하세요" class="form-control" id="email" name="email" required />
+                                          <label class="form-label" for="email" style="display:none;">이메일</label>
+                                      </div>
+
+                                      <div class="form-outline mb-4">
+                                          <input type="tel" placeholder="전화번호를 입력하세요" class="form-control" id="tel" name="tel" required />
+                                          <label class="form-label" for="tel" style="display:none;">전화번호</label>
+                                      </div>
+                                      <!-- Submit button -->
+                                      <button type="submit" class="btn btn-primary btn-block mb-4">찾기</button>
+                                      <a class="btn btn-primary btn-block mb-4" th:href="@{/login}">로그인</a>
+                                </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+      <!-- content 영역 종료 -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- footer start -->
+<div th:replace="/fragments/footer.html :: footerFragment"></div>
+<!-- footer end -->
+</body>
+</html>

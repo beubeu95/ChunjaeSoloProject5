@@ -4,15 +4,18 @@ import com.chunjae.project5.domain.UserPrincipal;
 import com.chunjae.project5.entity.Role;
 import com.chunjae.project5.entity.User;
 import com.chunjae.project5.entity.UserRole;
+import com.chunjae.project5.entity.UserVO;
 import com.chunjae.project5.persis.RoleMapper;
 import com.chunjae.project5.persis.UserMapper;
-import com.chunjae.project5.persis.UserRoleMapper;
+import com.chunjae.project5.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -24,35 +27,55 @@ public class UserService implements UserDetailsService {
     private RoleMapper roleMapper;
 
     @Autowired
-    private UserRoleMapper userRoleMapper;
-
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public User findUserByLoginId(String loginId) {
-        return userMapper.findUserByLoginId(loginId);
+
+    public User getUserByLoginId(String loginId) {
+        return userMapper.getUserByLoginId(loginId);
     }
 
-    public void saveUser(User user) {
+    public int saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setActive(1);
-        userMapper.setUserInfo(user);
-        User mem = userMapper.getLastInsertUser();
-        System.out.println("mem : " + mem.toString());
-        Role role = roleMapper.getRoleInfo("USER");
-        UserRole userRole = new UserRole();
-        userRole.setRoleId(role.getId());
-        userRole.setUserId(mem.getId());
-        userRoleMapper.setUserRoleInfo(userRole);
+        return userMapper.userInsert(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userMapper.findUserByLoginId(username);
-        return new UserPrincipal(user);
+        UserVO userVO = userMapper.findUserListByLoginId(username);
+
+        if(userVO == null) {
+            throw new UsernameNotFoundException("null");
+        }
+
+        return new UserPrincipal(userVO);
     }
 
-    public void addPt(String loginId) { userMapper.addPt(loginId);}
-    public void minusPt(String loginId) { userMapper.minusPt(loginId); }
+    public List<User> userList(Page page) { return userMapper.userList(page); }
+    public int getCount(Page page) { return userMapper.getCount(page); }
+
+    //회원 정보 수정
+    public void userEdit(User user) {
+        userMapper.userEdit(user);
+    }
+
+    //패스워드 변경
+    public void pwEdit(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userMapper.pwEdit(user);
+    }
+
+
+    public User findId(String email, String tel){
+        return userMapper.findId(email, tel);
+    }
+
+    public int cntDeal(String loginId) {
+        return userMapper.cntDeal(loginId);
+    }
+
+    public void addPt(String loginId) {
+        userMapper.addPt(loginId);
+    }
 
 }

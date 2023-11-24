@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <div th:replace="/fragments/head.html :: headFragment"></div>
+</head>
+<body>
+<!-- header start -->
+<div th:replace="/fragments/header.html :: headerFragment"></div>
+<!-- header end -->
+<main id="main">
+
+    <!-- Breadcrumbs start -->
+    <div class="breadcrumbs">
+        <div class="page-header d-flex align-items-center">
+            <div class="container position-relative">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-6 text-center">
+                        <h2>회원가입</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <div class="container">
+                <ol>
+                    <li><a href="../">Home</a></li>
+                    <li>회원가입</li>
+                </ol>
+            </div>
+        </nav>
+    </div>
+    <!-- Breadcrumbs end -->
+
+    <section id="get-a-quote" class="get-a-quote">
+        <div class="container" data-aos="fade-up">
+            <div class="row g-0" style="border: 1px solid #000000; border-radius: 10px; padding: 30px;">
+                <div class="col-lg-5 quote-bg" style="background-image: url(/img/bannerTrain.jpg);"></div>
+                <div class="col-lg-7" style="margin-top: 110px">
+                    <h2 style="text-align: center; font-weight:bold;">회원가입</h2>
+                    <form th:action="@{/join}" autocomplete="off" th:object="${user}" method="post">
+                        <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+                        <div class="form-outline mb-4">
+                            <label th:if="${#fields.hasErrors('loginId')}" th:errors="*{loginId}">아이디</label>
+                            <input type="text" th:field="*{loginId}" minlength="5" placeholder="5글자 이상의 아이디를 입력하세요." class="form-control" />
+                        </div>
+
+                        <div class="form-outline mb-1">
+                            <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}">비밀번호</label>
+                            <input type="password" th:field="*{password}" placeholder="8자리 ~ 16자리와 대소문자와 특수문자" class="form-control" pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$" maxlength="16" minlength="8" required />
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <label th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}">비밀번호 확인</label>
+                            <input type="password" th:field="*{passwordConfirm}" placeholder="비밀번호 확인을 입력하세요." class="form-control" pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$" maxlength="16" minlength="8" required />
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}">이메일</label>
+                            <input type="email" th:field="*{email}" placeholder="이메일을 입력하세요." class="form-control" required />
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <label th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">이름</label>
+                            <input type="text" th:field="*{userName}" placeholder="이름을 입력하세요." class="form-control" required />
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <label th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}">전화번호</label>
+                            <input type="text" th:field="*{tel}" placeholder="010-XXXX-XXXX" class="form-control" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required />
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <label th:if="${#fields.hasErrors('birth')}" th:errors="*{birth}">생년월일</label>
+                            <input type="date" th:field="*{birth}" class="form-control" required />
+                        </div>
+
+                        <div class="form-outline mb-1">
+                            <label th:if="${#fields.hasErrors('addr1')}" th:errors="*{addr1}">기본주소</label>
+                            <input type="text" th:field="*{addr1}" placeholder="기본주소" id="address1" class="form-control" required readonly/>
+                        </div>
+
+                        <div class="form-outline mb-1">
+                            <input type="text" th:field="*{addr2}" placeholder="상세주소를 입력해주세요." id="address2" class="form-control" />
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <input type="text" th:field="*{postcode}" placeholder="우편번호" id="postcode" class="form-control" style="width:65%;display:inline-block;" required readonly/>
+                            <button type="button" id="post_btn" onclick="findAddr()" class="btn btn-outline-primary" style="width:calc(35% - 15px);margin-left:10px;display:inline-block;">우편번호 검색</button>
+                        </div>
+
+                        <div class="mb-4 text-center" th:if="${exception eq 'error01'}">
+                            <div class="col">
+                                <p style="color:red">아이디 또는 비밀번호가 올바르지 않거나 가입이 되지 않았습니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 text-center" th:utext="${successMessage}">
+                            <div class="col">
+                                <p th:utext="${successMessage}">토큰 정보가 만료되었습니다. 토큰을 갱신하시기 바랍니다.</p>
+                            </div>
+                        </div>
+
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-primary btn-block mb-4">회원가입</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- footer start -->
+<div th:replace="/fragments/footer.html :: footerFragment"></div>
+<!-- footer end -->
+</body>
+</html>
